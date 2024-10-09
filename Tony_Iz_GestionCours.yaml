@@ -1,0 +1,311 @@
+openapi: 3.0.0
+info:
+  title: Educational API
+  description: API for managing educational resources
+  version: 1.0.0
+servers:
+  - url: https://api.example.com/v1
+paths:
+  /cours:
+    get:
+      summary: Retrieve a list of courses
+      parameters:
+        - name: tags
+          in: query
+          required: false
+          schema:
+            type: array
+            items:
+              type: string
+          description: Filter courses by tags
+      responses:
+        '200':
+          description: A list of courses
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    idcours:
+                      type: integer
+                    titre:
+                      type: string
+                    discipline:
+                      type: string
+                    tags:
+                      type: array
+                      items:
+                        type: string
+    post:
+      summary: Create a new course
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                idcours:
+                  type: integer
+                titre:
+                  type: string
+                discipline:
+                  type: string
+                tags:
+                  type: array
+                  items:
+                    type: string
+      responses:
+        '201':
+          description: Course created successfully
+    delete:
+      summary: Delete a course
+      parameters:
+        - name: idcours
+          in: query
+          required: true
+          schema:
+            type: integer
+      responses:
+        '204':
+          description: Course deleted successfully
+
+  /cours/{idcours}/seances:
+    get:
+      summary: Retrieve sessions for a specific course
+      parameters:
+        - name: idcours
+          in: path
+          required: true
+          schema:
+            type: integer
+      responses:
+        '200':
+          description: A list of sessions for the course
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    idséance:
+                      type: integer
+                    idcours:
+                      type: integer
+                    titre:
+                      type: string
+                    num_semaine:
+                      type: integer
+                    thématique:
+                      type: string
+    post:
+      summary: Create a new session for a specific course
+      parameters:
+        - name: idcours
+          in: path
+          required: true
+          schema:
+            type: integer
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                titre:
+                  type: string
+                num_semaine:
+                  type: integer
+                thématique:
+                  type: string
+                idcours:
+                  type: integer
+      responses:
+        '201':
+          description: Session created successfully
+    delete:
+      summary: Delete a session
+      parameters:
+        - name: idcours
+          in: path
+          required: true
+          schema:
+            type: integer
+        - name: idséance
+          in: query
+          required: true
+          schema:
+            type: integer
+      responses:
+        '204':
+          description: Session deleted successfully
+
+  /cours/{idcours}/seances/{idséance}/dossiers:
+    get:
+      summary: Retrieve dossiers for a specific session
+      parameters:
+        - name: idcours
+          in: path
+          required: true
+          schema:
+            type: integer
+        - name: idséance
+          in: path
+          required: true
+          schema:
+            type: integer
+      responses:
+        '200':
+          description: A list of dossiers for the session
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    iddossier:
+                      type: integer
+                    titre:
+                      type: string
+                    idséance:
+                      type: integer
+                    idcours:
+                      type: integer
+    post:
+      summary: Create a new dossier for a specific session
+      parameters:
+        - name: idcours
+          in: path
+          required: true
+          schema:
+            type: integer
+        - name: idséance
+          in: path
+          required: true
+          schema:
+            type: integer
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                titre:
+                  type: string
+                iddossier:
+                  type: integer
+      responses:
+        '201':
+          description: Dossier created successfully
+    delete:
+      summary: Delete a dossier
+      parameters:
+        - name: idcours
+          in: path
+          required: true
+          schema:
+            type: integer
+        - name: idséance
+          in: path
+          required: true
+          schema:
+            type: integer
+        - name: iddossier
+          in: query
+          required: true
+          schema:
+            type: integer
+      responses:
+        '204':
+          description: Dossier deleted successfully
+
+  /cours/{idcours}/seances/{idséance}/fichiers:
+    get:
+      summary: Retrieve files for a specific session
+      parameters:
+        - name: idcours
+          in: path
+          required: true
+          schema:
+            type: integer
+        - name: idséance
+          in: path
+          required: true
+          schema:
+            type: integer
+      responses:
+        '200':
+          description: A list of files for the session
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    idfichier:
+                      type: integer
+                    titre:
+                      type: string
+                    extension:
+                      type: string
+                    idséance:
+                      type: integer
+                    idcours:
+                      type: integer
+    post:
+      summary: Create a new file for a specific session
+      parameters:
+        - name: idcours
+          in: path
+          required: true
+          schema:
+            type: integer
+        - name: idséance
+          in: path
+          required: true
+          schema:
+            type: integer
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                titre:
+                  type: string
+                extension:
+                  type: string
+                idfichier:
+                  type: integer
+      responses:
+        '201':
+          description: File created successfully
+    delete:
+      summary: Delete a file
+      parameters:
+        - name: idcours
+          in: path
+          required: true
+          schema:
+            type: integer
+        - name: idséance
+          in: path
+          required: true
+          schema:
+            type: integer
+        - name: idfichier
+          in: query
+          required: true
+          schema:
+            type: integer
+      responses:
+        '204':
+          description: File deleted successfully
