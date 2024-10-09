@@ -1,0 +1,528 @@
+openapi: 3.0.0
+info:
+  title: Educational API
+  description: API for managing educational resources
+  version: 1.0.0
+servers:
+  - url: https://api.example.com/v1
+paths:
+  /cours:
+    post:
+      tags:
+        - Cours
+      summary: Create a new cours
+      description: Create a new cours
+      operationId: postCours
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                idcours:
+                  type: integer
+                titre:
+                  type: string
+                discipline:
+                  type: string
+                tags:
+                  type: array
+                  items:
+                    type: string 
+                seances:
+                  type: array
+                  items:
+                    type: object
+        required: true
+      responses:
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  idcours:
+                    type: integer
+                  titre:
+                    type: string
+                  discipline:
+                    type: string
+                  tags:
+                    type: array
+                    items:
+                      type: string
+
+    get:
+      tags:
+        - Cours
+      summary: Retrieve a list of all courses
+      description: Retrieve a list of all courses
+      operationId: getCours
+      responses:
+        '200':
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: object
+
+  /cours/{tag}:
+    get:
+      tags:
+        - Cours
+      summary: Retrieve a Cours by Tag
+      description: Retrieve a Cours by Tag
+      operationId: getCoursByTag
+      parameters:
+        - name: tag
+          in: path
+          description: Tags to filter by
+          required: true
+          explode: true
+          schema:
+            type: string
+      
+      responses:
+        '200':
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: object
+                
+              
+  /cours/{idcours}:
+    get:
+      tags:
+        - Cours
+      summary: Retrieve a cours by ID
+      description: Retrieve a cours by ID
+      operationId: getCoursByID
+      parameters:
+        - name: idcours
+          in: path
+          description: ID of cours to return
+          required: true
+          schema:
+            type: integer
+            format: int64
+      responses:
+        '200':
+          description: Operation Successful
+          content:
+            application/json:
+              schema:
+                type: object
+
+    delete:
+      tags:
+        - Cours
+      summary: Delete a cours by ID
+      description: Delete a cours by ID
+      operationId: deleteCours
+      parameters:
+        - name: idcours
+          in: path
+          required: true
+          schema:
+            type: integer
+            format: int64
+      responses:
+        '204':
+          description: Cours deleted successfully
+        '400':
+          description: Invalid Cours ID
+
+  /cours/{idcours}/seances:
+    post:
+      tags:
+        - Seances
+      summary: Create a new seance in a cours
+      description: Create a new seance in a cours
+      operationId: postSeance
+      parameters:
+        - name: idcours
+          in: path
+          required: true
+          schema:
+            type: integer
+            format: int64
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                idseance:
+                  type: integer
+                titre:
+                  type: string
+                semaine:
+                  type: integer
+                module:
+                  type: string
+                dossiers:
+                  type: array
+                  items:
+                    type: object
+                fichiers:
+                  type: array
+                  items:
+                    type: object
+      responses:
+        '201':
+          description: Seance created successfully
+
+    get:
+      tags:
+        - Seances
+      summary: Get seances pour a cours
+      description: Get seances pour a cours
+      operationId: getSeances
+      parameters:
+        - name: idcours
+          in: path
+          required: true
+          schema:
+            type: integer
+            format: int64
+      responses:
+        '200':
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: object
+                  
+  /cours/{idcours}/seances/module:
+    get:
+      tags:
+        - Seances
+      summary: Get liste de seance by module
+      description: Get liste de seance by module
+      operationId: getSeancesByModule
+      parameters:
+        - name: idcours
+          in: path
+          required: true
+          schema:
+            type: integer
+            format: int64
+        - name: module
+          in: query
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: object
+
+  /cours/{idcours}/seances/semaine:
+    get:
+      tags:
+        - Seances
+      summary: Get liste de seance by semaine
+      description: Get liste de seance by semaine
+      operationId: getSeancesBySemaine
+      parameters:
+        - name: idcours
+          in: path
+          required: true
+          schema:
+            type: integer
+            format: int64
+        - name: semaine
+          in: query
+          required: true
+          schema:
+            type: integer
+            format: int64
+      responses:
+        '200':
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: object
+
+  /cours/{idcours}/seances/{idseance}:
+    get:
+      tags:
+        - Seances
+      summary: Get a seance by ID
+      description: Get a seance by ID
+      operationId: getSeancesByID
+      parameters:
+        - name: idcours
+          in: path
+          required: true
+          schema:
+            type: integer
+            format: int64
+        - name: idseance
+          in: path
+          required: true
+          schema:
+            type: integer
+            format: int64
+      responses:
+        '200':
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                type: object
+
+    delete:
+      tags:
+        - Seances
+      summary: Delete a seance by ID
+      description: Delete a seance by ID
+      operationId: deleteSeance
+      parameters:
+        - name: idcours
+          in: path
+          required: true
+          schema:
+            type: integer
+        - name: idseance
+          in: path
+          required: true
+          schema:
+            type: integer
+      responses:
+        '204':
+          description: Session deleted successfully
+        '400':
+          description: Invalid Seance ID
+
+  
+
+  /cours/{idcours}/seances/{idseance}/dossiers:
+  
+    post:
+      tags:
+        - Dossiers
+      summary: Creer dossier dans une seance
+      description: Creer dossier dans une seance
+      operationId: postDossier
+      parameters:
+        - name: idcours
+          in: path
+          required: true
+          schema:
+            type: integer
+        - name: idseance
+          in: path
+          required: true
+          schema:
+            type: integer
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                iddossier:
+                  type: integer
+                titre:
+                  type: string
+                dossiers:
+                  type: array
+                  items:
+                    type: object
+                fichiers:
+                  type: array
+                  items:
+                    type: object
+      responses:
+        '201':
+          description: Dossier created successfully
+  
+    get:
+      tags:
+        - Dossiers
+      summary: Get liste de dossiers dans seances
+      description: Get liste de dossiers dans seances
+      operationId: getDosssiers
+      parameters:
+        - name: idcours
+          in: path
+          required: true
+          schema:
+            type: integer
+        - name: idseance
+          in: path
+          required: true
+          schema:
+            type: integer
+      responses:
+        '200':
+          description: A list of dossiers for the session
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: object
+
+  /cours/{idcours}/seances/{idseance}/dossiers/{iddossier}:
+  
+    get:
+      tags:
+        - Dossiers
+      summary: Get dossier by ID
+      description: Get dossier by ID
+      operationId: getDossierByID
+      parameters:
+        - name: idcours
+          in: path
+          required: true
+          schema:
+            type: integer
+        - name: idseance
+          in: path
+          required: true
+          schema:
+            type: integer
+        - name: iddossier
+          in: path
+          required: true
+          schema:
+            type: integer
+      responses:
+        '200':
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                type: object
+  
+    delete:
+      summary: Delete a dossier
+      tags:
+        - Dossiers
+      parameters:
+        - name: idcours
+          in: path
+          required: true
+          schema:
+            type: integer
+        - name: idseance
+          in: path
+          required: true
+          schema:
+            type: integer
+        - name: iddossier
+          in: path
+          required: true
+          schema:
+            type: integer
+      responses:
+        '204':
+          description: Dossier deleted successfully
+
+  /cours/{idcours}/seances/{idseance}/fichiers:
+
+    post:
+      summary: Create a new file for a specific session
+      tags:
+        - Fichiers
+      parameters:
+        - name: idcours
+          in: path
+          required: true
+          schema:
+            type: integer
+        - name: idseance
+          in: path
+          required: true
+          schema:
+            type: integer
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                titre:
+                  type: string
+                extension:
+                  type: string
+                idfichier:
+                  type: integer
+      responses:
+        '201':
+          description: File created successfully
+
+    get:
+      summary: Retrieve files for a specific session
+      tags:
+        - Fichiers
+      parameters:
+        - name: idcours
+          in: path
+          required: true
+          schema:
+            type: integer
+        - name: idseance
+          in: path
+          required: true
+          schema:
+            type: integer
+      responses:
+        '200':
+          description: A list of files for the session
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: object
+
+  /cours/{idcours}/seances/{idseance}/fichiers/{idfichier}:
+
+    delete:
+      tags:
+        - Fichiers
+      summary: Delete a file by ID
+      description: Deletea file by ID
+      parameters:
+        - name: idcours
+          in: path
+          required: true
+          schema:
+            type: integer
+        - name: idseance
+          in: path
+          required: true
+          schema:
+            type: integer
+        - name: idfichier
+          in: path
+          required: true
+          schema:
+            type: integer
+      responses:
+        '204':
+          description: File deleted successfully
+        '400':
+          description: Invalid fichier ID
