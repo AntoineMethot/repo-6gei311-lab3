@@ -1,0 +1,332 @@
+---
+swagger: "2.0"
+info:
+  description: "MANAGE THE FILES"
+  version: "1.0.0"
+  title: "LABO3"
+paths:
+  /cours:
+    get:
+      tags:
+      - "Cours"
+      summary: "Retrieve a list of all courses"
+      description: "Retrieve a list of all courses"
+      operationId: "get_cours"
+      parameters: []
+      responses:
+        "200":
+          description: "Successful operation"
+      x-swagger-router-controller: "swagger_server.controllers.cours_controller"
+    post:
+      tags:
+      - "Cours"
+      summary: "Create a new cours"
+      description: "Create a new cours"
+      operationId: "post_cours"
+      parameters: []
+      responses:
+        "200":
+          description: "successful operation"
+      x-swagger-router-controller: "swagger_server.controllers.cours_controller"
+  /cours/{tag}:
+    get:
+      tags:
+      - "Cours"
+      summary: "Retrieve a Cours by Tag"
+      description: "Retrieve a Cours by Tag"
+      operationId: "get_cours_by_tag"
+      parameters:
+      - name: "tag"
+        in: "path"
+        description: "Tags to filter by"
+        required: true
+      responses:
+        "200":
+          description: "Successful operation"
+      x-swagger-router-controller: "swagger_server.controllers.cours_controller"
+  /cours/{idcours}:
+    get:
+      tags:
+      - "Cours"
+      summary: "Retrieve a cours by ID"
+      description: "Retrieve a cours by ID"
+      operationId: "get_cours_by_id"
+      parameters:
+      - name: "idcours"
+        in: "path"
+        description: "ID of cours to return"
+        required: true
+      responses:
+        "200":
+          description: "Operation Successful"
+      x-swagger-router-controller: "swagger_server.controllers.cours_controller"
+    delete:
+      tags:
+      - "Cours"
+      summary: "Delete a cours by ID"
+      description: "Delete a cours by ID"
+      operationId: "delete_cours"
+      parameters:
+      - name: "idcours"
+        in: "path"
+        required: true
+      responses:
+        "204":
+          description: "Cours deleted successfully"
+        "400":
+          description: "Invalid Cours ID"
+      x-swagger-router-controller: "swagger_server.controllers.cours_controller"
+  /cours/{idcours}/seances:
+    get:
+      tags:
+      - "Seances"
+      summary: "Get seances pour a cours"
+      description: "Get seances pour a cours"
+      operationId: "get_seances"
+      parameters:
+      - name: "idcours"
+        in: "path"
+        required: true
+      responses:
+        "200":
+          description: "Successful operation"
+      x-swagger-router-controller: "swagger_server.controllers.seances_controller"
+    post:
+      tags:
+      - "Seances"
+      summary: "Create a new seance in a cours"
+      description: "Create a new seance in a cours"
+      operationId: "post_seance"
+      parameters:
+      - name: "idcours"
+        in: "path"
+        required: true
+      responses:
+        "201":
+          description: "Seance created successfully"
+      x-swagger-router-controller: "swagger_server.controllers.seances_controller"
+  /cours/{idcours}/seances/module:
+    get:
+      tags:
+      - "Seances"
+      summary: "Get liste de seance by module"
+      description: "Get liste de seance by module"
+      operationId: "get_seances_by_module"
+      parameters:
+      - name: "idcours"
+        in: "path"
+        required: true
+      - name: "module"
+        in: "query"
+        required: true
+      responses:
+        "200":
+          description: "Successful operation"
+      x-swagger-router-controller: "swagger_server.controllers.seances_controller"
+  /cours/{idcours}/seances/semaine:
+    get:
+      tags:
+      - "Seances"
+      summary: "Get liste de seance by semaine"
+      description: "Get liste de seance by semaine"
+      operationId: "get_seances_by_semaine"
+      parameters:
+      - name: "idcours"
+        in: "path"
+        required: true
+      - name: "semaine"
+        in: "query"
+        required: true
+      responses:
+        "200":
+          description: "Successful operation"
+      x-swagger-router-controller: "swagger_server.controllers.seances_controller"
+  /cours/{idcours}/seances/{idseance}:
+    get:
+      tags:
+      - "Seances"
+      summary: "Get a seance by ID"
+      description: "Get a seance by ID"
+      operationId: "get_seances_by_id"
+      parameters:
+      - name: "idcours"
+        in: "path"
+        required: true
+      - name: "idseance"
+        in: "path"
+        required: true
+      responses:
+        "200":
+          description: "Successful operation"
+      x-swagger-router-controller: "swagger_server.controllers.seances_controller"
+    delete:
+      tags:
+      - "Seances"
+      summary: "Delete a seance by ID"
+      description: "Delete a seance by ID"
+      operationId: "delete_seance"
+      parameters:
+      - name: "idcours"
+        in: "path"
+        required: true
+      - name: "idseance"
+        in: "path"
+        required: true
+      responses:
+        "204":
+          description: "Session deleted successfully"
+        "400":
+          description: "Invalid Seance ID"
+      x-swagger-router-controller: "swagger_server.controllers.seances_controller"
+  /cours/{idcours}/seances/{idseance}/dossiers:
+    get:
+      tags:
+      - "Dossiers"
+      summary: "Get liste de dossiers dans seances"
+      description: "Get liste de dossiers dans seances"
+      operationId: "get_dosssiers"
+      parameters:
+      - name: "idcours"
+        in: "path"
+        required: true
+      - name: "idseance"
+        in: "path"
+        required: true
+      responses:
+        "200":
+          description: "A list of dossiers for the session"
+      x-swagger-router-controller: "swagger_server.controllers.dossiers_controller"
+    post:
+      tags:
+      - "Dossiers"
+      summary: "Creer dossier dans une seance"
+      description: "Creer dossier dans une seance"
+      operationId: "post_dossier"
+      parameters:
+      - name: "idcours"
+        in: "path"
+        required: true
+      - name: "idseance"
+        in: "path"
+        required: true
+      responses:
+        "201":
+          description: "Dossier created successfully"
+      x-swagger-router-controller: "swagger_server.controllers.dossiers_controller"
+  /cours/{idcours}/seances/{idseance}/dossiers/{iddossier}:
+    get:
+      tags:
+      - "Dossiers"
+      summary: "Get dossier by ID"
+      description: "Get dossier by ID"
+      operationId: "get_dossier_by_id"
+      parameters:
+      - name: "idcours"
+        in: "path"
+        required: true
+      - name: "idseance"
+        in: "path"
+        required: true
+      - name: "iddossier"
+        in: "path"
+        required: true
+      responses:
+        "200":
+          description: "Successful operation"
+      x-swagger-router-controller: "swagger_server.controllers.dossiers_controller"
+    delete:
+      tags:
+      - "Dossiers"
+      summary: "Delete a dossier"
+      operationId: "cours_idcours_seances_idseance_dossiers_iddossier_delete"
+      parameters:
+      - name: "idcours"
+        in: "path"
+        required: true
+      - name: "idseance"
+        in: "path"
+        required: true
+      - name: "iddossier"
+        in: "path"
+        required: true
+      responses:
+        "204":
+          description: "Dossier deleted successfully"
+      x-swagger-router-controller: "swagger_server.controllers.dossiers_controller"
+  /cours/{idcours}/seances/{idseance}/fichiers:
+    get:
+      tags:
+      - "Fichiers"
+      summary: "Retrieve files for a specific session"
+      operationId: "cours_idcours_seances_idseance_fichiers_get"
+      parameters:
+      - name: "idcours"
+        in: "path"
+        required: true
+      - name: "idseance"
+        in: "path"
+        required: true
+      responses:
+        "200":
+          description: "A list of files for the session"
+      x-swagger-router-controller: "swagger_server.controllers.fichiers_controller"
+    post:
+      tags:
+      - "Fichiers"
+      summary: "Create a new file for a specific session"
+      operationId: "cours_idcours_seances_idseance_fichiers_post"
+      parameters:
+      - name: "idcours"
+        in: "path"
+        required: true
+      - name: "idseance"
+        in: "path"
+        required: true
+      responses:
+        "201":
+          description: "File created successfully"
+      x-swagger-router-controller: "swagger_server.controllers.fichiers_controller"
+  /cours/{idcours}/seances/{idseance}/dossiers/{iddossier}/fichiers:
+    post:
+      tags:
+      - "Fichiers"
+      summary: "Create a new file for a specific session"
+      operationId: "cours_idcours_seances_idseance_dossiers_iddossier_fichiers_post"
+      parameters:
+      - name: "idcours"
+        in: "path"
+        required: true
+      - name: "idseance"
+        in: "path"
+        required: true
+      - name: "iddossier"
+        in: "path"
+        required: true
+      responses:
+        "201":
+          description: "File created successfully"
+      x-swagger-router-controller: "swagger_server.controllers.fichiers_controller"
+  /cours/{idcours}/seances/{idseance}/fichiers/{idfichier}:
+    delete:
+      tags:
+      - "Fichiers"
+      summary: "Delete a file by ID"
+      description: "Deletea file by ID"
+      operationId: "cours_idcours_seances_idseance_fichiers_idfichier_delete"
+      parameters:
+      - name: "idcours"
+        in: "path"
+        required: true
+      - name: "idseance"
+        in: "path"
+        required: true
+      - name: "idfichier"
+        in: "path"
+        required: true
+      responses:
+        "204":
+          description: "File deleted successfully"
+        "400":
+          description: "Invalid fichier ID"
+      x-swagger-router-controller: "swagger_server.controllers.fichiers_controller"
+definitions: {}
